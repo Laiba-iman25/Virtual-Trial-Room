@@ -1,0 +1,35 @@
+// Root-level build.gradle
+
+buildscript {
+    repositories {
+        google()           // Google's Maven repository
+        mavenCentral()     // Maven Central repository
+        jcenter()          // Add jcenter if needed for certain dependencies
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.0.0'  // Android Gradle Plugin (AGP)
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0'  // Kotlin Gradle Plugin
+        // Removed flutter-gradle-plugin dependency since Flutter handles it automatically
+    }
+}
+
+allprojects {
+    repositories {
+        google()           // Google's Maven repository
+        mavenCentral()     // Maven Central repository
+    }
+}
+
+rootProject.buildDir = "../build"
+
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+
+subprojects {
+    project.evaluationDependsOn(":app")
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
